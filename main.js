@@ -340,6 +340,12 @@ function createParcelCard(parcel) {
                                     class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded transition-colors">
                                 Mark Interest
                             </button>
+                            </button>
+
+                            <button onclick="window.location.href='details_parcel.html?id=${parcel.properties.uuid}'" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded transition-colors interest-btn">
+                                greport
+                            
+                            </button>
                         </div>
                     `;
                     
