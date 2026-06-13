@@ -29,7 +29,7 @@ signupForm.addEventListener('submit', async (event) => {
         password: document.getElementById('password').value,
         username: document.getElementById('username').value.trim(),
         mobile: document.getElementById('mobile').value.trim(),
-        address: document.getElementById('address').value.trim(),
+        //address: document.getElementById('address').value.trim(),
         //idCard: document.getElementById('idCard').value.trim(),
         account: document.getElementById('account').value
     };
