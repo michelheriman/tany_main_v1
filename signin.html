@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — Tany</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #10b981;
+            --primary-dark: #047857;
+            --primary-light: #d1fae5;
+            --secondary: #0891b2;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border-light: #e5e7eb;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #e0f2f1 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .signin-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .signin-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .signin-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-logo {
+            height: 40px;
+            width: 40px;
+            margin: 0 auto 1rem;
+        }
+
+        .signin-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .signin-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn-signin {
+            width: 100%;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-signin:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            opacity: 0.95;
+        }
+
+        .btn-signin:active {
+            transform: translateY(0);
+        }
+
+        .btn-signin:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .signin-message {
+            text-align: center;
+            font-size: 0.875rem;
+            margin-top: 1.25rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            min-height: 1.5rem;
+        }
+
+        .signin-message.success {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .signin-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .signin-footer {
+            text-align: center;
+            margin-top: 1.75rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .signin-footer p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .signin-footer a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .signin-footer a:hover {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 480px) {
+            .signin-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .signin-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    
+    <script defer src="./signin.js"></script>
+</head>
+<body>
+    <div class="signin-container">
+        <div class="signin-card">
+            <div class="signin-header">
+                <img src="./logo_.png" alt="Tany Logo" class="brand-logo">
+                <h1 class="signin-title">Welcome Back</h1>
+                <p class="signin-subtitle">Sign in to your Tany account</p>
+            </div>
+
+            <form id="signin-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <button type="submit" class="btn-signin">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+            </form>
+
+            <div id="message" class="signin-message"></div>
+
+            <div class="signin-footer">
+                <p>Don't have an account?</p>
+                <a href="./signup.html">Create one now</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

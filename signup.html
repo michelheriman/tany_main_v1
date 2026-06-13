@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up — Tany</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #10b981;
+            --primary-dark: #047857;
+            --primary-light: #d1fae5;
+            --secondary: #0891b2;
+            --danger: #ef4444;
+            --success: #10b981;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border-light: #e5e7eb;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #e0f2f1 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1rem 3rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .signup-container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .signup-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-logo {
+            height: 40px;
+            width: 40px;
+            margin: 0 auto 1rem;
+        }
+
+        .signup-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.45rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.7rem 0.95rem;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .field-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+        }
+
+        .field-error {
+            font-size: 0.75rem;
+            color: var(--danger);
+            margin-top: 0.35rem;
+            display: none;
+        }
+
+        .field-error.show {
+            display: block;
+        }
+
+        .field-success {
+            font-size: 0.75rem;
+            color: var(--success);
+            margin-top: 0.35rem;
+            display: none;
+        }
+
+        .field-success.show {
+            display: block;
+        }
+
+        .btn-signup {
+            width: 100%;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            opacity: 0.95;
+        }
+
+        .btn-signup:active {
+            transform: translateY(0);
+        }
+
+        .btn-signup:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .signup-message {
+            text-align: center;
+            font-size: 0.875rem;
+            margin-top: 1.25rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            min-height: 1.5rem;
+            display: none;
+        }
+
+        .signup-message.show {
+            display: block;
+        }
+
+        .signup-message.success {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .signup-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .signup-footer {
+            text-align: center;
+            margin-top: 1.75rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .signup-footer p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-footer a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .signup-footer a:hover {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 480px) {
+            .signup-card {
+                padding: 1.75rem 1.5rem;
+            }
+
+            .signup-title {
+                font-size: 1.5rem;
+            }
+
+            body {
+                padding: 0.75rem 1rem 2rem;
+            }
+        }
+    </style>
+    
+    <script defer src="./signup.js"></script>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <img src="./logo_.png" alt="Tany Logo" class="brand-logo">
+                <h1 class="signup-title">Create Account</h1>
+                <p class="signup-subtitle">Join us and get started today</p>
+            </div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        required
+                        placeholder="John Doe"
+                        autocomplete="name"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required
+                        placeholder="john@example.com"
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required
+                        minlength="6"
+                        placeholder="••••••••"
+                        autocomplete="new-password"
+                    >
+                    <p class="field-hint">Minimum 6 characters</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        required
+                        placeholder="johndoe123"
+                        autocomplete="username"
+                    >
+                    <p id="usernameError" class="field-error">Username already exists</p>
+                    <p id="usernameSuccess" class="field-success">Username available</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input 
+                        type="tel" 
+                        id="mobile" 
+                        name="mobile" 
+                        required
+                        placeholder="+1 (555) 123-4567"
+                        autocomplete="tel"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea 
+                        id="address" 
+                        name="address" 
+                        required
+                        placeholder="123 Main St, City, State, ZIP"
+                        autocomplete="street-address"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="idCard">ID Card Number</label>
+                    <input 
+                        type="text" 
+                        id="idCard" 
+                        name="idCard" 
+                        required
+                        placeholder="ID123456789"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="account">Account Type</label>
+                    <select id="account" name="account" required>
+                        <option value="free" selected>Free (Default)</option>
+                        <option value="pro5">Pro Tier 1</option>
+                        <option value="pro10">Pro Tier 2</option>
+                        <option value="pro">Pro Tier 3</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-signup">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+                <p>By sign up, You agree with the  <a href="https://docs.google.com/document/d/1hLNnbp23wgGmEWPV6tTbKW-1cdJOZL1h/edit?usp=drive_link&ouid=102871601424904775170&rtpof=true&sd=true">Terms of use</a></p>
+            </form>
+
+            <div id="message" class="signup-message"></div>
+
+            <div class="signup-footer">
+                <p>Already have an account?</p>
+                <a href="./signin.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
