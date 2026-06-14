@@ -49,6 +49,7 @@ signupForm.addEventListener('submit', async (event) => {
         });
         
         const data = await response.json();
+        console.log('Response body:', data); 
         
         // Note: Flask returns status 201 for success, or check data.message
         if (response.ok) {
@@ -59,7 +60,8 @@ signupForm.addEventListener('submit', async (event) => {
                 window.location.href = './signin.html';
             }, 2000);
         } else {
-            showMessage(data.error || 'Registration failed', 'error');
+            //showMessage(data.error || 'Registration failed', 'error');
+            showMessage(data.message || 'Registration failed', 'error');
             resetSubmitBtn();
         }
     } catch (error) {
