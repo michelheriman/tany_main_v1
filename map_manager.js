@@ -31,28 +31,6 @@ require([
     //const API_URL = 'http://127.0.0.1:5000';
     const API_URL = 'https://mtk.pythonanywhere.com/';
     
-    //
-    /*
-    const SUPABASE_URL = 'https://msazbxjxovbbcagmmxmj.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zYXpieGp4b3ZiYmNhZ21teG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2NDc1NTAsImV4cCI6MjA3NTIyMzU1MH0.WPZDnTilt_YuqaPGcRjjsdQlxkYA5IPRtSpcgyPv2Fw';
-    const supabase_ = window.supabase.createClient(SUPABASE_URL , SUPABASE_ANON_KEY );
-
-    async function checker() {
-        const session = await supabase_.auth.getSession();
-        if (!session.data.session) {
-          // Redirect or block access
-          window.location.href = "/signin.html";
-        }
-        else {console.log("connected succefulyy");
-          //const user = await getCurrentUser();
-          //let us = document.getElementById('username_');
-  
-          //us.textContent = session.data.session.user.email;
-        }
-          };
-    checker();
-
-    */
 
     projection.load().then(() => {
         console.log("Projection loaded");
