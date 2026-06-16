@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Configure your API endpoint here
-        const apiEndpoint = '/api/upload-kml'; // Replace with your actual endpoint // contruct with the flask API
+        const apiEndpoint = 'api/upload-kml'; // Replace with your actual endpoint // contruct with the flask API
         
         // Create XMLHttpRequest for progress tracking
         const xhr = new XMLHttpRequest();
