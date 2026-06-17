@@ -1,4 +1,4 @@
-const API_URL = 'https://mtk.pythonanywhere.com/';
+const API_URL = 'https://mtk.pythonanywhere.com';
 
 async function checker() {
         const userToken = localStorage.getItem('auth_token');
