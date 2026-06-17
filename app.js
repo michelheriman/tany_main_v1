@@ -1,6 +1,3 @@
-
-//let supabase = null;
-//let tableData = [];
 const API_URL = 'https://mtk.pythonanywhere.com/';
 
 const columns = ['owner', 'parcel_name', 'price_m2', 'price', 'location_name', 'description', 'sell_category', 'status_category'];
@@ -239,65 +236,12 @@ function renderTable(data) {
     document.getElementById('tableSection').classList.remove('hidden');
 }
 
-//---------\\
-
-/*
-function renderTable(data) {
-    if (!data || data.length === 0) {
-        showStatus('No properties found', 'warning');
-        return;
-    }
-
-    const tbody = document.getElementById('tableBody');
-    tbody.innerHTML = '';
-
-    data.forEach((row) => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-gray-50 transition';
-
-        columns.forEach(col => {
-            const td = document.createElement('td');
-            td.className = 'px-4 py-3 text-sm text-gray-700 border border-gray-200';
-
-            const value = row[col];
-            
-            // Create editable input
-            const input = document.createElement('input');
-            input.type = col === 'price_m2' || col === 'price' ? 'number' : 'text';
-            input.value = value !== null && value !== undefined ? value : '';
-            input.className = 'w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500';
-            
-            input.addEventListener('blur', () => {
-                updateCell(row.id, col, input.value, row);
-            });
-
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    updateCell(row.id, col, input.value, row);
-                }
-            });
-
-            td.appendChild(input);
-            tr.appendChild(td);
-        });
-
-        tbody.appendChild(tr);
-    });
-
-    document.getElementById('tableSection').classList.remove('hidden');
-};
-*/
-
 async function updateCell(rowId, column, newValue, row) {
     
     const token = await checker();
     let API = '/api/update_t';
     const updateData = { [column]: newValue };
 
-    /*
-    {"element" : updateData,
-    'id' : rowId}
-    */
     const sent = {"element" : updateData,
                     'id' : rowId};
     
@@ -315,12 +259,6 @@ async function updateCell(rowId, column, newValue, row) {
                 )
     
     const result = await response.json();
-    /*
-    const { error } = await supabase
-        .from('main_parcels')
-        .update(updateData)
-        .eq('id', rowId);
-    */
 
     if (!response.success) throw response.message;
 
