@@ -142,13 +142,6 @@ async function load(objt, uuid) {
 
     const response = await result.json();
   
-  // tsy maintsy hoe potehana izay ao anatiny io main_me io
-  /*
-  const {data, error} = await supabase_ //object_message
-        .from('messages') // Replace with your table name
-        .select("*")
-        .eq("objet", objt)
-  */
   if (!response.success) {
         console.error(`Error fetching the data: ${response.message}`);
         return null; // Return null or handle error accordingly
@@ -158,15 +151,6 @@ async function load(objt, uuid) {
     // main user en vert
     //mila volena eto ilay chat sy envois eny ambany
     main_me.innerHTML = '';
-    /*
-    let title = `${objt}`;
-    let title_cont = document.createElement("h2");
-    title_cont.id = "object_title";
-    title_cont.textContent = title
-    title_cont.className = "text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl";
-    main_me.appendChild(title_cont);
-    */
-    //let title = `${objt}`;
     let session = await getCurrentUserWithRefresh()//await supabase_.auth.getSession();
     
     response.data.forEach(element => {
@@ -175,10 +159,6 @@ async function load(objt, uuid) {
       let receiver = element.receiver_id;
       let sender = element.sender_id;
       let uuid = element.uuid_post;
-      //
-      //let attribute_uuid = document.getElementById("uuid_post");
-      //attribute_uuid.value = uuid;
-      //
       let cont = document.createElement("div");
       cont.object = objt;
       cont.sender = sender;
@@ -206,17 +186,7 @@ async function load(objt, uuid) {
       }
 
       else if (element.receiver_id === user){
-        /*
-        let mes = `
-        <div class="flex items-end justify-end gap-3">
-        <div class="bg-green-600 text-white p-4 rounded-xl shadow max-w-md">
-          <p class="text-sm sm:text-base leading-relaxed font-black italic tracking-wider text-gray-100 drop-shadow-sm mb-2">${element.sender_id}</p>
-          <p>${element.content}</p>
-          <span class="text-xs text-green-200 block mt-2 text-right">${element.created_at}</span>
-        </div>
-      </div>
-        `
-        */
+        
        let mes = `
         <div class="flex items-start gap-3">
             <div class="bg-blue-500 text-white p-4 rounded-xl shadow max-w-md">
@@ -237,17 +207,7 @@ async function load(objt, uuid) {
 
       
       else {
-        /*
-        let mess = `
-        <div class="flex items-start gap-3">
-          <div class="bg-white p-4 rounded-xl shadow max-w-md">
-            <h4 class="text-xl sm:text-2xl md:text-3xl font-extrabold italic text-gray-700 tracking-wide">${element.sender_id}</h3>
-            <p> ${element.content}</p>
-            <span class="text-xs text-gray-500 block mt-2 text-right">6:42 AM</span>
-          </div>
-        </div>
-        `
-        */
+        
        let mess = `
         <div class="flex items-start gap-3">
             <div class="bg-blue-500 p-4 rounded-xl shadow max-w-md">
@@ -273,11 +233,6 @@ async function load(objt, uuid) {
 
 async function mail_launcher() {
   let cont = document.getElementById("mails");
-  //const session = await supabase_.auth.getSession();
-  //const session = await getCurrentUserWithRefresh()//await supabase_.auth.getSession();
-
-  //let user = session.data.email; //session.data.session.user.email;
-
   try {
     let token = await checker();
     let API = '/api/load_object';
@@ -315,17 +270,6 @@ async function mail_launcher() {
         response.data.forEach(element => {
         let objt = element.objet;
         let mmail = element.main_user;
-        //let uuid = element.uuid_post;
-        //
-        
-        /*
-        if (element.main_user !== user) {
-          mmail = element.main_user;
-        }
-        else if (element.user_1 !== user) {
-          mmail = element.user_1
-        }
-          */
         let but = `
           <button onclick = "load('${objt}', '${element.uuid_post}')" class="w-full text-left flex items-center gap-4 p-4 hover:bg-gray-100 transition rounded-lg">
               <!-- Avatar -->
@@ -346,8 +290,7 @@ async function mail_launcher() {
           let divc = document.createElement("div");
           divc.innerHTML = but;
           cont.appendChild(divc);
-          //console.log(objt)
-          //obje = objt;
+          
 
         });
   }
@@ -362,13 +305,6 @@ async function mail_launcher() {
 mail_launcher();
 
 async function write_message() {
-  //build tables : objects, messages 
-  //messages columns : object, sender id, receiver id, date, content, uuid
-  /*
-  - get the object selected
-  - get the send button and the written messages aadevent listenr
-  - write to the messages in the messages table : keep object
-  */
   
   let sub = document.getElementById("text_sub");
   sub.addEventListener("click", async () => {
@@ -380,9 +316,7 @@ async function write_message() {
     let sender = session.data.email;
     //get the object of the message
     let obj = document.getElementById("data"); //this hold every data from the loaded messages
-    //let objec = obj.textContent;
-    //console.log(obj.sender);
-    // get the receiver 
+    
     let receiver;
     if (sender === obj.sender) {
       //sender = obj.sender;
@@ -439,24 +373,7 @@ async function write_message() {
       } else {
           alert(`Registration failed: ${data.message || 'Unknown error'}`);
       }
-    //console.log(sender, receiver);
-    /*
-    const {data, error} = await supabase_ //object_message
-        .from('messages') // Replace with your table name
-        .insert(
-          {
-          sender_id : sender,
-          receiver_id : receiver,
-          content : saisie,
-          uuid_post : obj.uuid,// soilina ny annonce, rehefa mampiditra parcelles zareo , id anle parcelles
-          objet : obj.object
-          }
-        )
-    */
-      
-      
-      
-      //location.reload();
+    
     }
   catch (error) {
     alert(error)
@@ -477,82 +394,6 @@ function refreshAfter8Minutes() {
 // Start one-time refresh
 refreshAfter8Minutes();
 
-//need to register the message back from the 
-
-/*
-// Simulated logged-in user and recipient (replace with real auth in production)
-const userId = 'user_1';
-const recipientId = 'user_2';
-
-const chatBox = document.getElementById('chat-box');
-const messageInput = document.getElementById('message-input');
-const sendBtn = document.getElementById('send-btn');
-const contactList = document.getElementById('contact-list');
-
-// Load contacts from 'profile' table
-async function loadContacts() {
-  const { data: profiles, error } = await supabase_.from('profile').select('*');
-  if (error) return console.error('Load contacts error:', error);
-
-  contactList.innerHTML = '';
-  profiles.forEach(profile => {
-    const li = document.createElement('li');
-    li.className = `flex items-center space-x-2 p-2 rounded cursor-pointer hover:bg-gray-100`;
-    li.innerHTML = `
-      <span class="w-3 h-3 rounded-full bg-${profile.color_tag}-500"></span>
-      <span>${profile.name}</span>
-    `;
-    contactList.appendChild(li);
-  });
-}
-
-// Load messages from 'messages' table
-async function loadMessages() {
-  const { data: messages, error } = await supabase_
-    .from('messages')
-    .select('*')
-    .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
-    .order('created_at');
-
-  if (error) return console.error('Load messages error:', error);
-
-  chatBox.innerHTML = '';
-  messages.forEach(msg => {
-    const div = document.createElement('div');
-    const isMine = msg.sender_id === userId;
-    div.className = `max-w-md ${isMine ? 'ml-auto bg-blue-100 text-right' : 'bg-green-100'} p-2 rounded`;
-    div.innerText = msg.content;
-    chatBox.appendChild(div);
-  });
-
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-// Send new message
-sendBtn.addEventListener('click', async () => {
-  const content = messageInput.value.trim();
-  if (!content) return;
-
-  const { error } = await supabase_.from('messages').insert([
-    {
-      sender_id: userId,
-      receiver_id: recipientId,
-      content: content
-    }
-  ]);
-
-  if (error) return console.error('Send message error:', error);
-
-  messageInput.value = '';
-  loadMessages();
-});
-
-// Initial load
-loadContacts();
-loadMessages();
-*/
-
-
 // Wire up your existing button
 document.getElementById('admintalk').addEventListener('click', openAdminModal);
 
@@ -567,13 +408,6 @@ document.addEventListener('keydown', e => {
 });
 
 async function write_admin_message() {
-  //build tables : objects, messages 
-  //messages columns : object, sender id, receiver id, date, content, uuid
-  /*
-  - get the object selected
-  - get the send button and the written messages aadevent listenr
-  - write to the messages in the messages table : keep object
-  */
   
   let sub = document.getElementById("sendadmin");
   sub.addEventListener("click", async () => {
@@ -583,11 +417,6 @@ async function write_admin_message() {
     const session = await getCurrentUserWithRefresh();
 
     let sender = session.data.email;
-    //get the object of the message
-    //let obj = document.getElementById("data"); //this hold every data from the loaded messages
-    //let objec = obj.textContent;
-    //console.log(obj.sender);
-    // get the receiver 
     let receiver = "raherimanantsoa.consult@gmail.com";
     
     const formData = {
@@ -616,21 +445,6 @@ async function write_admin_message() {
       }
       
       const data = await response.json();
-      /*
-      let nmes = `
-        <div class="flex items-end justify-end gap-3">
-        <div class="bg-green-600 text-white p-4 rounded-xl shadow max-w-md">
-          <p class="text-sm sm:text-base leading-relaxed font-black italic tracking-wider text-gray-100 drop-shadow-sm mb-2">${sender}</p>
-          <p>${saisie}</p>
-          <span class="text-xs text-green-200 block mt-2 text-right">Now</span>
-        </div>
-      </div>
-        `
-      let main_me = document.getElementById("main_mess");
-      let nm = document.createElement("div");
-      nm.innerHTML = nmes;
-      main_me.appendChild(nm)
-      */
       
       if (data.success) {
           alert(`Parcel registered successfully!`);
@@ -639,24 +453,7 @@ async function write_admin_message() {
       } else {
           alert(`Registration failed: ${data.message || 'Unknown error'}`);
       }
-    //console.log(sender, receiver);
-    /*
-    const {data, error} = await supabase_ //object_message
-        .from('messages') // Replace with your table name
-        .insert(
-          {
-          sender_id : sender,
-          receiver_id : receiver,
-          content : saisie,
-          uuid_post : obj.uuid,// soilina ny annonce, rehefa mampiditra parcelles zareo , id anle parcelles
-          objet : obj.object
-          }
-        )
-    */
       
-      
-      
-      //location.reload();
     }
   catch (error) {
     alert(error)
@@ -667,9 +464,3 @@ async function write_admin_message() {
 
 write_admin_message();
 
-/*
-let wamdin = document.getElementById("sendadmin");
-wamdin.addEventListener("click", async () => {
-  await write_admin_message();
-});
-*/
