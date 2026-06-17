@@ -1,10 +1,4 @@
-const API_URL = 'https://mtk.pythonanywhere.com/';// 'http://127.0.0.1:5000'
-
-//format of the url : onclick="window.location.href='details_parcel.html?id=30399f52-7197-4c82-940e-80eb4e9a7c27'" to be implemented in th button of the marketplace
-//const params = new URLSearchParams(window.location.search);
-//const productId = params.get("id");
-
-//create the table message and object message in the supabase db 
+const API_URL = 'https://mtk.pythonanywhere.com/';
 
 async function checker() {
         const userToken = localStorage.getItem('auth_token');
@@ -284,83 +278,7 @@ get_parcels_info().then(res =>{
             return;
         }
 
-        // debut for translation \\
-        /*
-        const MONTH_NAMES_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        const MONTH_NAMES_FR = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
-        const FULL_MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-        const FULL_MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-        const TRANSLATIONS = {
-          en:{
-            eyebrow:'Terrain Analysis Report',
-            'sec-terrain':'Terrain Overview','sec-location':'Location Map','sec-soil':'Soil Properties',
-            'sec-flood':'Flood Risk Assessment','sec-climate':'Climate','sec-proximity':'Proximity — services within radius',
-            elevation:'Elevation','max-slope':'Max Slope','avg-slope':'Avg Slope',samples:'Slope Samples',
-            degrees:'degrees',measurements:'measurements','individual-slopes':'Individual Slope Profile',
-            coordinates:'Coordinates','elev-short':'ELEV','source-label':'SOURCE',
-            'flood-peak':'Forecast Peak Discharge','7day':'7-day forecast',
-            normal:'Normal','no-flood':'No Flood Risk','return-periods':'Return Period Thresholds',
-            year2:'2-year',year5:'5-year',year10:'10-year',year20:'20-year',year30:'30-year',year50:'50-year',year100:'100-year',
-            'current-peak':'Current peak:','well-below':'well below all thresholds',
-            history:'History:',years:'years analyzed',
-            print:'Print PDF','coord-label':'Coordinates:','date-label':'Assessed:',
-            'data-source':'Data source: GloFAS v4 via Open-Meteo · ISRIC World Soil Information',
-            'flood-desc-normal':'Below 2-year threshold — river levels within normal range',
-            'mean-temp':'Mean annual temp.','coldest':'Coldest month','hottest':'Hottest month','data-range':'Data range',
-            'rainy-season':'Rainy Season','onset':'Onset','end-season':'End','wettest':'Wettest month','yearly-rain':'Avg yearly rain',
-            'monthly-season':'Monthly season indicator','temperature-profile':'Temperature Profile',
-            'prox-hospital':'Hospital','prox-market':'Market','prox-transport':'Transport',
-            'prox-none':'None found','prox-radius-label':'Search radius',
-            'avg-line-label':'Average',
-            'soil-names':{bdod:'Bulk Density',cec:'CEC',cfvo:'Coarse Fragments',clay:'Clay',nitrogen:'Nitrogen',ocd:'Org. Carbon Density',phh2o:'pH (water)',sand:'Sand',silt:'Silt',soc:'Org. Carbon Stock',wv0010:'Water Vol. 10kPa',wv0033:'Water Vol. 33kPa',wv1500:'Water Vol. 1500kPa'},
-            monthNames: MONTH_NAMES_EN, fullMonths: FULL_MONTHS_EN
-          },
-          fr:{
-            eyebrow:'Rapport d\'analyse du terrain',
-            'sec-terrain':'Aperçu du terrain','sec-location':'Carte de localisation','sec-soil':'Propriétés du sol',
-            'sec-flood':'Évaluation des risques d\'inondation','sec-climate':'Climat','sec-proximity':'Proximité — services dans un rayon',
-            elevation:'Altitude','max-slope':'Pente max.','avg-slope':'Pente moy.',samples:'Échantillons',
-            degrees:'degrés',measurements:'mesures','individual-slopes':'Profil de pente individuel',
-            coordinates:'Coordonnées','elev-short':'ALT','source-label':'SOURCE',
-            'flood-peak':'Débit de pointe prévu','7day':'Prévision 7 jours',
-            normal:'Normal','no-flood':'Aucun risque d\'inondation','return-periods':'Seuils de période de retour',
-            year2:'2 ans',year5:'5 ans',year10:'10 ans',year20:'20 ans',year30:'30 ans',year50:'50 ans',year100:'100 ans',
-            'current-peak':'Pic actuel :','well-below':'bien en dessous de tous les seuils',
-            history:'Historique :',years:'années analysées',
-            print:'Imprimer PDF','coord-label':'Coordonnées :','date-label':'Évalué le :',
-            'data-source':'Source : GloFAS v4 via Open-Meteo · ISRIC World Soil Information',
-            'flood-desc-normal':'En dessous du seuil de 2 ans — niveaux fluviaux dans la plage normale',
-            'mean-temp':'Temp. annuelle moyenne','coldest':'Mois le plus froid','hottest':'Mois le plus chaud','data-range':'Période des données',
-            'rainy-season':'Saison des pluies','onset':'Début','end-season':'Fin','wettest':'Mois le plus pluvieux','yearly-rain':'Pluie annuelle moy.',
-            'monthly-season':'Indicateur mensuel','temperature-profile':'Profil de température',
-            'prox-hospital':'Hôpital','prox-market':'Marché','prox-transport':'Transport',
-            'prox-none':'Aucun trouvé','prox-radius-label':'Rayon de recherche',
-            'avg-line-label':'Moyenne',
-            'soil-names':{bdod:'Densité apparente',cec:'CEC',cfvo:'Fractions grossières',clay:'Argile',nitrogen:'Azote',ocd:'Dens. carb. org.',phh2o:'pH (eau)',sand:'Sable',silt:'Limon',soc:'Stock carb. org.',wv0010:'Vol. eau 10kPa',wv0033:'Vol. eau 33kPa',wv1500:'Vol. eau 1500kPa'},
-            monthNames: MONTH_NAMES_FR, fullMonths: FULL_MONTHS_FR
-          }
-        };
-
-        let currentLang='en';
-        function t(k){return TRANSLATIONS[currentLang][k]||TRANSLATIONS.en[k]||k}
-
-        function setLang(lang){
-          currentLang=lang;
-          document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===lang.toUpperCase()));
-          document.documentElement.lang=lang;
-          applyTranslations();
-          rebuildSoil(); rebuildSlope(); rebuildClimate(); rebuildProximity(); rebuildFlood();
-        }
-
-        function applyTranslations(){
-          document.querySelectorAll('[data-t]').forEach(el=>{
-            const k=el.getAttribute('data-t');
-            const tr=t(k); if(tr)el.textContent=tr;
-          });
-        }
-        */
-        // end of translation \\
+        
 
         /* TERRAIN STATS */
         function buildTerrainStats(){
