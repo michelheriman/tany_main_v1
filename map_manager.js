@@ -40,10 +40,6 @@ require([
     window.geometryEngine = geometryEngine;
     window.projection = projection;
 
-    // IMPORTANT: Set your API key here
-    // Get a free key from: https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/
-    //esriConfig.apiKey = "YOUR_API_KEY";
-
     // Create the Map
     const map = new Map({
         basemap: "satellite" // You can change the basemap e.g., "arcgis-imagery", "osm-standard"
@@ -195,35 +191,13 @@ require([
       });
   };
     
-    //this is for launching the button
-    /*
-    async function loader() {
-        const session = await supabase_.auth.getSession();
-        fetcher_2("main_parcels", "*", "owner_uuid", session.data.session.user.email);
-
-        
-    };
-
-    loader()
-    */
 
     //this is for showing the parcels 
     async function load_test() {
-        //let l = await fetcher_2(tableName = "view_one_parcels", query = "*", filter_col="owner_uuid", filter_value="client_1_"); 'main_parcels_smart_saha_poly
-        /*
-        const session = await supabase_.auth.getSession();
-        let us = session.data.session.user.email
-
-        let l = await fetcher_2(tableName = 'main_parcels', query = "*", filter_col="owner_uuid", filter_value=us); 
-        */
+        
         let token = await checker();
         let lal = await fetchMapData(token);
-        //console.log(token);
-        //console.log(lal);
         
-        //let l = lal.data;
-
-        //console.log(l);
         const blob = new Blob([JSON.stringify(lal)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         var renderer = new SimpleRenderer({
@@ -270,10 +244,6 @@ require([
     load_test();
     
     
-    // You can add layers to the map here
-    // Example:
-    // const featureLayer = new FeatureLayer({ url: "..." });
-    // map.add(featureLayer);
 
     const graphicsLayer = new GraphicsLayer();
     const sketch = new Sketch({
@@ -401,20 +371,6 @@ require([
     let conttt = document.getElementById("table_mm");
 
     async function data_counter() {
-        /*
-        const session = await supabase_.auth.getSession();
-        let owner_uuid = session.data.session.user.email;
-        
-        const { data, error } = await supabase_
-            .from('main_parcels')
-            .select('id') // Just select a single column for efficiency
-            .eq('owner_uuid', owner_uuid);
-        
-        if (error) {
-            console.error('Error counting parcels:', error);
-            return 0;
-        }
-        */
         const API = '/api/map-data';
         try {
             const token = localStorage.getItem('auth_token');
