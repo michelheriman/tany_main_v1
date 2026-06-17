@@ -262,19 +262,7 @@ async function buyNow(productId, vendorid, objet) {
       console.error("Network error:", error);
       alert(`Failed to register parcel: ${error.message}`);
     }
-    /*
     
-    const { error } = await supabase_.from('messages').insert([
-    {
-      sender_id: sender_id,
-      receiver_id: vendorid,
-      content: content,
-      uuid_post : productId,
-      objet : objet
-    }
-  ]);
-  if (error) return console.error('Load messages error:', error);
-  */
   function redirect(){
         alert("your bid was placed successfuly!");
         window.location.href = "./main_market.html"
