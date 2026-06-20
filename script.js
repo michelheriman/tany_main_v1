@@ -151,6 +151,9 @@ async function load(objt, uuid) {
     // main user en vert
     //mila volena eto ilay chat sy envois eny ambany
     main_me.innerHTML = '';
+    let tit = document.getElementById("object_earth");
+    //console.log(tit)
+    tit.textContent = `${objt}`;
     let session = await getCurrentUserWithRefresh()//await supabase_.auth.getSession();
     
     response.data.forEach(element => {
